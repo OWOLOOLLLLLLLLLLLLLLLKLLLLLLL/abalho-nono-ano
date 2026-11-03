@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WORKSPACE // PORTFÓLIO</title>
+    
+    <!-- Fontes do Google para o estilo Y2K / HQ -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           VARIÁVEIS DE COR E ESTILO (Y2K / HQ)
+           ========================================= */
+        :root {
+            --bg-color: #f0f0f0;
+            --black: #121212;
+            --white: #ffffff;
+            --magenta: #ff0055;
+            --cyan: #00f0ff;
+            --yellow: #ffe600;
+            
+            --font-title: 'Oswald', sans-serif;
+            --font-ui: 'Space Mono', monospace;
+            
+            --border-heavy: 4px solid var(--black);
+            --shadow-solid: 6px 6px 0px var(--black);
+        }
+
+        /* =========================================
+           RESET E FUNDO (ESTILO RETÍCULA DE MANGÁ)
+           ========================================= */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            /* Retícula de Quadrinhos (Halftone Dots) */
+            background-image: radial-gradient(var(--black) 10%, transparent 11%), radial-gradient(var(--black) 10%, transparent 11%);
+            background-size: 14px 14px;
+            background-position: 0 0, 7px 7px;
+            font-family: var(--font-ui);
+            color: var(--black);
+            overflow-x: hidden;
+        }
+
+        /* Fundo meio transparente para suavizar as bolinhas */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: -1;
+        }
+
+        /* =========================================
+           FAIXA DE MARQUEE Y2K (TOPO)
+           ========================================= */
+        .marquee-container {
+            background: var(--magenta);
+            color: var(--white);
+            font-family: var(--font-title);
+            font-size: 18px;
+            letter-spacing: 2px;
+            padding: 5px 0;
+            border-bottom: var(--border-heavy);
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            z-index: 10;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 15s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* =========================================
+           HEADER / NAVBAR (ESTILO ANIME UI)
+           ========================================= */
+        header {
+            background-color: var(--white);
+            border-bottom: var(--border-heavy);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 9;
+            box-shadow: 0px 8px 0px rgba(0,0,0,1);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-family: var(--font-title);
+            font-size: 32px;
+            text-transform: uppercase;
+            color: var(--black);
+            position: relative;
+            display: inline-block;
+        }
+
+        .logo::after {
+            content: "ポートフォリオ"; /* "Portfólio" em Japonês */
+            position: absolute;
+            font-size: 12px;
+            background: var(--yellow);
+            padding: 2px 6px;
+            border: 2px solid var(--black);
+            top: -10px;
+            right: -60px;
+            transform: rotate(10deg);
+        }
+
+        .status-badge {
+            background: var(--cyan);
+            border: 2px solid var(--black);
+            padding: 5px 15px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 3px 3px 0px var(--black);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--magenta);
+            border-radius: 50%;
+            border: 2px solid var(--black);
+            animation: blink 1s infinite alternate;
+        }
+
+        @keyframes blink {
+            from { opacity: 1; }
+            to { opacity: 0.3; }
+        }
+
+        /* =========================================
+           CONTAINER E GRID (VITRINE DE ARQUIVOS)
+           ========================================= */
+        .container {
+            max-width: 1300px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .section-title {
+            font-family: var(--font-title);
+            font-size: 40px;
+            background: var(--black);
+            color: var(--white);
+            padding: 5px 20px;
+            border-radius: 0 20px 0 20px;
+            text-transform: uppercase;
+        }
+
+        .section-subtitle {
+            font-weight: bold;
+            color: var(--magenta);
+            margin-bottom: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 35px;
+        }
+
+        /* =========================================
+           CARDS (ESTILO QUADRINHO / MANGÁ)
+           ========================================= */
+        .card {
+            background: var(--white);
+            border: var(--border-heavy);
+            box-shadow: var(--shadow-solid);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) translateX(-4px);
+            box-shadow: 12px 12px 0px var(--magenta);
+        }
+
+        .card:nth-child(even):hover {
+            box-shadow: 12px 12px 0px var(--cyan);
+        }
+
+        /* Capa do Card (Visual Manga/Tech) */
+        .card-cover {
+            background: repeating-linear-gradient(
+                45deg,
+                var(--black),
+                var(--black) 2px,
+                var(--yellow) 2px,
+                var(--yellow) 10px
+            );
+            height: 100px;
+            position: relative;
+            border-bottom: var(--border-heavy);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card:nth-child(even) .card-cover {
+            background: repeating-linear-gradient( -45deg, var(--black), var(--black) 2px, var(--cyan) 2px, var(--cyan) 10px );
+        }
+
+        .volume-tag {
+            background: var(--white);
+            border: 2px solid var(--black);
+            padding: 5px 15px;
+            font-family: var(--font-title);
+            font-size: 24px;
+            transform: skewX(-10deg);
+        }
+
+        .card-body {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .file-name {
+            font-family: var(--font-title);
+            font-size: 22px;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+            line-height: 1.2;
+        }
+
+        .file-stats {
+            font-size: 13px;
+            color: #555;
+            border-left: 3px solid var(--magenta);
+            padding-left: 10px;
+            margin-bottom: 20px;
+        }
+
+        .card-btn {
+            background: var(--black);
+            color: var(--white);
+            border: 2px solid var(--black);
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .card:hover .card-btn {
+            background: var(--magenta);
+            color: var(--white);
+        }
+        .card:nth-child(even):hover .card-btn {
+            background: var(--cyan);
+            color: var(--black);
+        }
+
+        /* Estrela decorativa Y2K */
+        .star-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background: var(--magenta);
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            z-index: 2;
+        }
+
+        /* =========================================
+           MODAL (VISUALIZADOR ESTILO HQ)
+           ========================================= */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            padding: 2% 5%;
+        }
+
+        .modal-wrapper {
+            background: var(--white);
+            width: 100%;
+            height: 100%;
+            border: var(--border-heavy);
+            box-shadow: 15px 15px 0px var(--cyan);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            background: var(--yellow);
+            border-bottom: var(--border-heavy);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-family: var(--font-title);
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .modal-title span {
+            background: var(--black);
+            color: var(--white);
+            padding: 2px 10px;
+            font-size: 14px;
+            font-family: var(--font-ui);
+            border-radius: 10px;
+        }
+
+        .btn-close {
+            background: var(--magenta);
+            color: var(--white);
+            border: 2px solid var(--black);
+            padding: 5px 15px;
+            font-family: var(--font-title);
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px var(--black);
+            transition: transform 0.1s;
+        }
+
+        .btn-close:active {
+            transform: translate(3px, 3px);
+            box-shadow: 0px 0px 0px var(--black);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: var(--white);
+        }
+
+        /* Loading */
+        .loading-screen {
+            text-align: center;
+            padding: 50px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .spinner {
+            width: 50px; height: 50px;
+            border: 5px solid var(--black);
+            border-top-color: var(--magenta);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+    </style>
+</head>
+<body>
+
+    <!-- FAIXA Y2K ROLANDO -->
+    <div class="marquee-container">
+        <div class="marquee-content">
+            ✦ BEM-VINDO AO MEU WORKSPACE ✦ GITHUB REPOSITORY SYNCED ✦ PROJETOS E PORTFÓLIO ONLINE ✦ DESIGN & CÓDIGO ✦ 
+            ✦ BEM-VINDO AO MEU WORKSPACE ✦ GITHUB REPOSITORY SYNCED ✦ PROJETOS E PORTFÓLIO ONLINE ✦ DESIGN & CÓDIGO ✦
+        </div>
+    </div>
+
+    <!-- CABEÇALHO -->
+    <header>
+        <div class="logo">WORKSPACE</div>
+        <div class="status-badge">
+            <div class="status-dot" id="status-dot"></div>
+            <span id="repo-status">AWAITING LINK...</span>
+        </div>
+    </header>
+
+    <!-- ÁREA PRINCIPAL -->
+    <div class="container">
+        <div class="section-header">
+            <div class="section-title">MEUS TRABALHOS</div>
+            <div class="section-subtitle">// PROJETOS & PORTFÓLIO</div>
+        </div>
+        
+        <!-- Estado de Carregamento -->
+        <div id="loading" class="loading-screen">
+            <div class="spinner"></div>
+            <p>SYNCING WITH GITHUB API...</p>
+        </div>
+        
+        <!-- Grid de Arquivos HTML -->
+        <div class="grid" id="repo-grid">
+            <!-- Cards injetados via JS -->
+        </div>
+    </div>
+
+    <!-- MODAL / LEITOR DE HQ (VISUALIZADOR HTML) -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-wrapper">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <span id="modal-tag">LIVE</span>
+                    <div id="modal-title-text">FILE_NAME.HTML</div>
+                </div>
+                <button class="btn-close" onclick="closeModal()">X CLOSE</button>
+            </div>
+            <iframe id="html-viewer" src=""></iframe>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // DADOS DO SEU REPOSITÓRIO GITHUB
+        // (Isso fica oculto e é necessário para puxar os arquivos)
+        // ==========================================
+        const GITHUB_USER = 'Hellmet64f'; 
+        const GITHUB_REPO = 'biblioteca'; 
+        const FOLDER_PATH = ''; // Raiz
+
+        const gridElement = document.getElementById('repo-grid');
+        const loadingElement = document.getElementById('loading');
+        const statusElement = document.getElementById('repo-status');
+        const statusDot = document.getElementById('status-dot');
+        
+        const modal = document.getElementById('modal');
+        const iframe = document.getElementById('html-viewer');
+        const modalTitleText = document.getElementById('modal-title-text');
+
+        // Função de busca na API
+        async function fetchHtmlFiles() {
+            const apiUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FOLDER_PATH}`;
+            
+            try {
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) throw new Error('Falha na conexão da API.');
+
+                const files = await response.json();
+                const htmlFiles = files.filter(file => file.name.endsWith('.html'));
+
+                // Atualiza UI de Sucesso
+                loadingElement.style.display = 'none';
+                statusElement.innerText = `LINK ESTABLISHED: ${GITHUB_REPO}`;
+                statusDot.style.background = 'var(--cyan)';
+
+                if (htmlFiles.length === 0) {
+                    gridElement.innerHTML = `<h3>NENHUM PROJETO ENCONTRADO EM /${GITHUB_REPO}</h3>`;
+                    return;
+                }
+
+                renderCards(htmlFiles);
+
+            } catch (error) {
+                console.error(error);
+                loadingElement.style.display = 'none';
+                statusElement.innerText = "ERROR: OFFLINE";
+                statusDot.style.background = 'red';
+                gridElement.innerHTML = `<h3>ERRO DE SINCRONIZAÇÃO. REPOSITÓRIO ESTÁ PÚBLICO?</h3>`;
+            }
+        }
+
+        // Função para desenhar os Cards no estilo HQ
+        function renderCards(files) {
+            gridElement.innerHTML = '';
+            
+            files.forEach((file, index) => {
+                // Formatação visual
+                const volNumber = String(index + 1).padStart(2, '0');
+                const sizeKB = (file.size / 1024).toFixed(1);
+                const isEven = index % 2 === 0;
+
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => openModal(file.name, file.download_url);
+                
+                // Estrutura HTML do Card Manga/Y2K
+                card.innerHTML = `
+                    ${isEven ? '<div class="star-icon"></div>' : ''}
+                    <div class="card-cover">
+                        <div class="volume-tag">PROJ.${volNumber}</div>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="file-name">${file.name}</h2>
+                        <div class="file-stats">
+                            <div><strong>STATUS:</strong> ONLINE</div>
+                            <div><strong>SIZE:</strong> ${sizeKB} KB</div>
+                            <div><strong>FORMAT:</strong> HTML</div>
+                        </div>
+                        <div class="card-btn">VER PROJETO >></div>
+                    </div>
+                `;
+                
+                gridElement.appendChild(card);
+            });
+        }
+
+        // Função para abrir e renderizar o HTML no Modal
+        async function openModal(fileName, fileUrl) {
+            modalTitleText.innerText = fileName.toUpperCase();
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Trava scroll da tela de fundo
+            
+            // Tela de carregamento tech dentro do iframe
+            iframe.srcdoc = `
+                <div style="display:flex; justify-content:center; align-items:center; height:100vh; background:#121212; color:#00f0ff; font-family:monospace; font-size:24px;">
+                    [ CARREGANDO PROJETO... ]
+                </div>
+            `;
+
+            try {
+                // Baixa o código do GitHub e injeta como site real
+                const response = await fetch(fileUrl);
+                const htmlContent = await response.text();
+                iframe.srcdoc = htmlContent;
+            } catch (error) {
+                iframe.srcdoc = `<h1 style="color:red; font-family:sans-serif; text-align:center; margin-top:50px;">ERRO AO CARREGAR PÁGINA.</h1>`;
+            }
+        }
+
+        // Fecha Modal
+        function closeModal() {
+            modal.style.display = 'none';
+            iframe.srcdoc = ''; 
+            document.body.style.overflow = 'auto'; // Libera scroll
+        }
+
+        // Fecha modal ao clicar fora da janela
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Inicia
+        fetchHtmlFiles();
+
+    </script>
+</body>
+</html>
