@@ -138,7 +138,7 @@ iframe{flex:1;width:100%;border:none;background:#fff}
 <div class="overlay" id="help"><div class="wrap">
   <div class="mh"><div class="mt"><span>GUIA</span><div>COMO ORGANIZAR AS PASTAS</div></div><div class="acts"><button class="x" data-close="#help">X FECHAR</button></div></div>
   <div class="bar"><b>NOME DO SEU PROJETO</b><input class="search" id="gn" value="DLS" maxlength="40" style="max-width:240px" aria-label="Nome do projeto nos exemplos"><button class="tb" id="gcall">⧉ COPIAR GUIA COMPLETO</button></div>
-  <div class="hb"><p class="gi">Crie estas pastas e arquivos no GitHub. O site lê tudo sozinho e monta cards, partes, abas e ordem. Digite o nome do seu projeto acima e os exemplos se atualizam.</p><div id="hx"></div></div>
+  <div class="hb"><p class="gi">Nomeie os arquivos no GitHub assim: cada ponto separa um nível do nome. O site lê tudo sozinho e monta cards, partes, abas e ordem. Digite o nome do seu projeto acima e os exemplos se atualizam.</p><div id="hx"></div></div>
 </div></div>
 
 <div class="overlay" id="lb">
@@ -163,10 +163,12 @@ function parse(f){
   const ext=((file.match(/\.([^.]+)$/)||[])[1]||'').toLowerCase(), base=file.replace(/\.[^.]+$/,'');
   let kind=/^html?$/.test(ext)?'html':IMG.test(file)?'foto':/^(txt|md)$/.test(ext)?'texto':null;
   if(!kind) return null;
-  const it={path:f.path,name:base,kind,parts:[],tab:null,size:f.size||0};
-  if(!seg.length){ if(kind!=='html') return null; it.project=base; return it; }
-  it.project=seg[0];
-  const rest=seg.slice(1); let type=null,m;
+  /* o ponto separa os níveis: DLS.parte 1.aba.Mapas.jogo.html (pastas com / ainda funcionam) */
+  const tk=base.replace(/(\d{2})\.(\d{2})\.(\d{4})/g,'$1-$2-$3').split('.').map(x=>x.trim()).filter(Boolean), name=tk.pop()||base, dirs=seg.concat(tk);
+  const it={path:f.path,name,kind,parts:[],tab:null,size:f.size||0};
+  if(!dirs.length){ if(kind!=='html') return null; it.project=name; return it; }
+  it.project=dirs[0];
+  const rest=dirs.slice(1); let type=null,m;
   for(let i=0;i<rest.length;i++){
     const s=rest[i], l=s.toLowerCase().trim();
     if(m=l.match(/^partes?\s*([\d,\s]+)$/)) it.parts=m[1].split(',').map(x=>+x.trim()).filter(Boolean);
@@ -177,9 +179,9 @@ function parse(f){
   }
   if(kind==='texto'&&type&&type!=='foto') it.kind=type;
   if(it.kind==='data'){
-    let d=base.match(/(\d{4})-(\d{2})-(\d{2})/), e=base.match(/(\d{2})[-.](\d{2})[-.](\d{4})/);
+    let d=name.match(/(\d{4})-(\d{2})-(\d{2})/), e=name.match(/(\d{2})[-.](\d{2})[-.](\d{4})/);
     if(d) it.date={y:d[1],m:d[2],d:d[3]}; else if(e) it.date={y:e[3],m:e[2],d:e[1]};
-    it.title=base.replace(/(\d{4}-\d{2}-\d{2}|\d{2}[-.]\d{2}[-.]\d{4})/,'').replace(/^[\s\-_]+|[\s\-_]+$/g,'')||'Evento';
+    it.title=name.replace(/(\d{4}-\d{2}-\d{2}|\d{2}[-.]\d{2}[-.]\d{4})/,'').replace(/^[\s\-_]+|[\s\-_]+$/g,'')||'Evento';
   }
   return it;
 }
@@ -314,17 +316,17 @@ function openPhoto(n){
 }
 
 const GUIDE=[
-{i:'📁',t:'PROJETOS',d:'Cada pasta na raiz vira um card. Um HTML solto na raiz também vira um projeto.',ex:[['DLS.html','Projeto solto: abre direto no visualizador'],['DLS/jogo.html','Arquivo dentro da pasta do projeto']]},
-{i:'🧩',t:'PARTES',d:'Com partes, o card pede para escolher uma. O que ficar fora de uma pasta "parte" aparece em todas.',ex:[['DLS/parte 1/jogo.html','Só na Parte 1'],['DLS/parte 2/jogo.html','Só na Parte 2'],['DLS/parte 1,2/regras.txt','Nas duas partes ao mesmo tempo']]},
-{i:'🗂',t:'ABAS',d:'Criam botões de aba dentro do projeto e no filtro da página inicial.',ex:[['DLS/aba/Mapas/jogo.html','Vai para a aba "Mapas"'],['DLS/aba/jogo.html','Sem nome: cai na aba chamada ABA'],['DLS/parte 1/aba/Mapas/a.html','Aba dentro de uma parte']]},
-{i:'📝',t:'TEXTOS',d:'Arquivos .txt ou .md viram cartões de texto.',ex:[['DLS/texto/nota.txt','Texto geral do projeto'],['DLS/texto/Mapas/nota.txt','Texto na aba "Mapas"'],['DLS/parte 2/texto/Mapas/nota.md','Texto na parte e na aba']]},
-{i:'⚠',t:'AVISOS',d:'Viram post-its no topo, e o card do projeto ganha a faixa AVISO.',ex:[['DLS/aviso/manutencao.txt','Aviso geral'],['DLS/aviso/Mapas/aviso.txt','Aviso na aba "Mapas"']]},
-{i:'📅',t:'DATAS',d:'Coloque a data no nome do arquivo (AAAA-MM-DD ou DD-MM-AAAA). O conteúdo do arquivo é a descrição. Aparecem em ordem de data.',ex:[['DLS/data/2026-12-20 Prova.txt','Data com selo de calendário'],['DLS/data/Mapas/20-12-2026 Entrega.txt','Data dentro de uma aba']]},
-{i:'🖼',t:'FOTOS',d:'png, jpg, gif, webp, svg e avif. Clique para ampliar e use as setas para trocar.',ex:[['DLS/foto/capa.jpg','Foto geral'],['DLS/foto/Mapas/print1.png','Foto na aba "Mapas"'],['DLS/parte 1/foto/Mapas/print2.png','Foto na parte e na aba']]},
-{i:'💡',t:'REGRAS',d:'Detalhes que valem para tudo.',ex:[['','Maiúsculas e minúsculas não importam nos nomes parte, aba, texto, aviso, data e foto'],['','Também valem os plurais e "imagem": partes, abas, textos, avisos, datas, fotos, imagens'],['','Pastas e arquivos que começam com ponto são ignorados'],['','Mudou algo no GitHub? A lista atualiza sozinha em até 5 minutos'],['','O repositório precisa estar público']]},
+{i:'📁',t:'PROJETOS',d:'Todo nome que começa igual vira um card. Um HTML com só o nome do projeto também vira um projeto.',ex:[['DLS.html','Projeto solto: abre direto no visualizador'],['DLS.jogo.html','Arquivo do projeto DLS']]},
+{i:'🧩',t:'PARTES',d:'Com partes, o card pede para escolher uma. O que ficar fora de uma pasta "parte" aparece em todas.',ex:[['DLS.parte 1.jogo.html','Só na Parte 1'],['DLS.parte 2.jogo.html','Só na Parte 2'],['DLS.parte 1,2.regras.txt','Nas duas partes ao mesmo tempo']]},
+{i:'🗂',t:'ABAS',d:'Criam botões de aba dentro do projeto e no filtro da página inicial.',ex:[['DLS.aba.Mapas.jogo.html','Vai para a aba "Mapas"'],['DLS.aba.jogo.html','Sem nome: cai na aba chamada ABA'],['DLS.parte 1.aba.Mapas.a.html','Aba dentro de uma parte']]},
+{i:'📝',t:'TEXTOS',d:'Arquivos .txt ou .md viram cartões de texto.',ex:[['DLS.texto.nota.txt','Texto geral do projeto'],['DLS.texto.Mapas.nota.txt','Texto na aba "Mapas"'],['DLS.parte 2.texto.Mapas.nota.md','Texto na parte e na aba']]},
+{i:'⚠',t:'AVISOS',d:'Viram post-its no topo, e o card do projeto ganha a faixa AVISO.',ex:[['DLS.aviso.manutencao.txt','Aviso geral'],['DLS.aviso.Mapas.aviso.txt','Aviso na aba "Mapas"']]},
+{i:'📅',t:'DATAS',d:'Coloque a data no nome do arquivo (AAAA-MM-DD ou DD-MM-AAAA). O conteúdo do arquivo é a descrição. Aparecem em ordem de data.',ex:[['DLS.data.2026-12-20 Prova.txt','Data com selo de calendário'],['DLS.data.Mapas.20-12-2026 Entrega.txt','Data dentro de uma aba']]},
+{i:'🖼',t:'FOTOS',d:'png, jpg, gif, webp, svg e avif. Clique para ampliar e use as setas para trocar.',ex:[['DLS.foto.capa.jpg','Foto geral'],['DLS.foto.Mapas.print1.png','Foto na aba "Mapas"'],['DLS.parte 1.foto.Mapas.print2.png','Foto na parte e na aba']]},
+{i:'💡',t:'REGRAS',d:'Detalhes que valem para tudo.',ex:[['','Use ponto no lugar da barra: cada ponto separa um nível (projeto, parte, aba, tipo) e o último nome é o do arquivo'],['','Não use ponto dentro de um nome. Para versão, escreva v1-2'],['','Pastas com barra (DLS/parte 1/jogo.html) ainda funcionam'],['','Maiúsculas e minúsculas não importam nos nomes parte, aba, texto, aviso, data e foto'],['','Também valem os plurais e "imagem": partes, abas, textos, avisos, datas, fotos, imagens'],['','Pastas e arquivos que começam com ponto são ignorados'],['','Mudou algo no GitHub? A lista atualiza sozinha em até 5 minutos'],['','O repositório precisa estar público']]},
 {i:'⌨',t:'ATALHOS',d:'Para navegar mais rápido.',ex:[['/','Pesquisar',1],['F','Tela cheia no visualizador',1],['← →','Trocar de foto',1],['Esc','Fechar a janela aberta',1]]}
 ];
-const gname=()=>$('#gn').value.trim().replace(/[\/\\]/g,'')||'DLS';
+const gname=()=>$('#gn').value.trim().replace(/[\/\\.]/g,'')||'DLS';
 function renderGuide(){
   const n=gname(), r=c=>c.replace(/DLS/g,n);
   $('#hx').innerHTML='<div class="gg">'+GUIDE.map(g=>`<div class="gc"><div class="gh">${g.i} ${g.t}</div><div class="gd">${esc(g.d)}</div>`+g.ex.map(([c,d,k])=>`<div class="ex">${c?`<div class="er"><code>${esc(r(c))}</code>${k?'':`<button class="cp" data-cp="${esc(r(c))}">COPIAR</button>`}</div>`:''}<small>${esc(d)}</small></div>`).join('')+'</div>').join('')+'</div>';
