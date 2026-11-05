@@ -1,585 +1,377 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WORKSPACE // PORTFÓLIO</title>
-    
-    <!-- Fontes do Google para o estilo Y2K / HQ -->
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-
-    <style>
-        /* =========================================
-           VARIÁVEIS DE COR E ESTILO (Y2K / HQ)
-           ========================================= */
-        :root {
-            --bg-color: #f0f0f0;
-            --black: #121212;
-            --white: #ffffff;
-            --magenta: #ff0055;
-            --cyan: #00f0ff;
-            --yellow: #ffe600;
-            
-            --font-title: 'Oswald', sans-serif;
-            --font-ui: 'Space Mono', monospace;
-            
-            --border-heavy: 4px solid var(--black);
-            --shadow-solid: 6px 6px 0px var(--black);
-        }
-
-        /* =========================================
-           RESET E FUNDO (ESTILO RETÍCULA DE MANGÁ)
-           ========================================= */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            /* Retícula de Quadrinhos (Halftone Dots) */
-            background-image: radial-gradient(var(--black) 10%, transparent 11%), radial-gradient(var(--black) 10%, transparent 11%);
-            background-size: 14px 14px;
-            background-position: 0 0, 7px 7px;
-            font-family: var(--font-ui);
-            color: var(--black);
-            overflow-x: hidden;
-        }
-
-        /* Fundo meio transparente para suavizar as bolinhas */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.85);
-            z-index: -1;
-        }
-
-        /* =========================================
-           FAIXA DE MARQUEE Y2K (TOPO)
-           ========================================= */
-        .marquee-container {
-            background: var(--magenta);
-            color: var(--white);
-            font-family: var(--font-title);
-            font-size: 18px;
-            letter-spacing: 2px;
-            padding: 5px 0;
-            border-bottom: var(--border-heavy);
-            overflow: hidden;
-            white-space: nowrap;
-            position: relative;
-            z-index: 10;
-        }
-
-        .marquee-content {
-            display: inline-block;
-            animation: marquee 15s linear infinite;
-        }
-
-        @keyframes marquee {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-
-        /* =========================================
-           HEADER / NAVBAR (ESTILO ANIME UI)
-           ========================================= */
-        header {
-            background-color: var(--white);
-            border-bottom: var(--border-heavy);
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 9;
-            box-shadow: 0px 8px 0px rgba(0,0,0,1);
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .logo {
-            font-family: var(--font-title);
-            font-size: 32px;
-            text-transform: uppercase;
-            color: var(--black);
-            position: relative;
-            display: inline-block;
-        }
-
-        .logo::after {
-            content: "ポートフォリオ"; /* "Portfólio" em Japonês */
-            position: absolute;
-            font-size: 12px;
-            background: var(--yellow);
-            padding: 2px 6px;
-            border: 2px solid var(--black);
-            top: -10px;
-            right: -60px;
-            transform: rotate(10deg);
-        }
-
-        .status-badge {
-            background: var(--cyan);
-            border: 2px solid var(--black);
-            padding: 5px 15px;
-            font-weight: bold;
-            font-size: 14px;
-            box-shadow: 3px 3px 0px var(--black);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            background: var(--magenta);
-            border-radius: 50%;
-            border: 2px solid var(--black);
-            animation: blink 1s infinite alternate;
-        }
-
-        @keyframes blink {
-            from { opacity: 1; }
-            to { opacity: 0.3; }
-        }
-
-        /* =========================================
-           CONTAINER E GRID (VITRINE DE ARQUIVOS)
-           ========================================= */
-        .container {
-            max-width: 1300px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: flex-end;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .section-title {
-            font-family: var(--font-title);
-            font-size: 40px;
-            background: var(--black);
-            color: var(--white);
-            padding: 5px 20px;
-            border-radius: 0 20px 0 20px;
-            text-transform: uppercase;
-        }
-
-        .section-subtitle {
-            font-weight: bold;
-            color: var(--magenta);
-            margin-bottom: 10px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 35px;
-        }
-
-        /* =========================================
-           CARDS (ESTILO QUADRINHO / MANGÁ)
-           ========================================= */
-        .card {
-            background: var(--white);
-            border: var(--border-heavy);
-            box-shadow: var(--shadow-solid);
-            position: relative;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-8px) translateX(-4px);
-            box-shadow: 12px 12px 0px var(--magenta);
-        }
-
-        .card:nth-child(even):hover {
-            box-shadow: 12px 12px 0px var(--cyan);
-        }
-
-        /* Capa do Card (Visual Manga/Tech) */
-        .card-cover {
-            background: repeating-linear-gradient(
-                45deg,
-                var(--black),
-                var(--black) 2px,
-                var(--yellow) 2px,
-                var(--yellow) 10px
-            );
-            height: 100px;
-            position: relative;
-            border-bottom: var(--border-heavy);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .card:nth-child(even) .card-cover {
-            background: repeating-linear-gradient( -45deg, var(--black), var(--black) 2px, var(--cyan) 2px, var(--cyan) 10px );
-        }
-
-        .volume-tag {
-            background: var(--white);
-            border: 2px solid var(--black);
-            padding: 5px 15px;
-            font-family: var(--font-title);
-            font-size: 24px;
-            transform: skewX(-10deg);
-        }
-
-        .card-body {
-            padding: 20px;
-            flex-grow: 1;
-        }
-
-        .file-name {
-            font-family: var(--font-title);
-            font-size: 22px;
-            margin-bottom: 10px;
-            word-wrap: break-word;
-            line-height: 1.2;
-        }
-
-        .file-stats {
-            font-size: 13px;
-            color: #555;
-            border-left: 3px solid var(--magenta);
-            padding-left: 10px;
-            margin-bottom: 20px;
-        }
-
-        .card-btn {
-            background: var(--black);
-            color: var(--white);
-            border: 2px solid var(--black);
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 16px;
-            text-transform: uppercase;
-            transition: all 0.2s;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .card:hover .card-btn {
-            background: var(--magenta);
-            color: var(--white);
-        }
-        .card:nth-child(even):hover .card-btn {
-            background: var(--cyan);
-            color: var(--black);
-        }
-
-        /* Estrela decorativa Y2K */
-        .star-icon {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 30px;
-            height: 30px;
-            background: var(--magenta);
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-            z-index: 2;
-        }
-
-        /* =========================================
-           MODAL (VISUALIZADOR ESTILO HQ)
-           ========================================= */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(4px);
-            z-index: 100;
-            padding: 2% 5%;
-        }
-
-        .modal-wrapper {
-            background: var(--white);
-            width: 100%;
-            height: 100%;
-            border: var(--border-heavy);
-            box-shadow: 15px 15px 0px var(--cyan);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0.9); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .modal-header {
-            background: var(--yellow);
-            border-bottom: var(--border-heavy);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-title {
-            font-family: var(--font-title);
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .modal-title span {
-            background: var(--black);
-            color: var(--white);
-            padding: 2px 10px;
-            font-size: 14px;
-            font-family: var(--font-ui);
-            border-radius: 10px;
-        }
-
-        .btn-close {
-            background: var(--magenta);
-            color: var(--white);
-            border: 2px solid var(--black);
-            padding: 5px 15px;
-            font-family: var(--font-title);
-            font-size: 20px;
-            cursor: pointer;
-            box-shadow: 3px 3px 0px var(--black);
-            transition: transform 0.1s;
-        }
-
-        .btn-close:active {
-            transform: translate(3px, 3px);
-            box-shadow: 0px 0px 0px var(--black);
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: var(--white);
-        }
-
-        /* Loading */
-        .loading-screen {
-            text-align: center;
-            padding: 50px;
-            font-size: 24px;
-            font-weight: bold;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .spinner {
-            width: 50px; height: 50px;
-            border: 5px solid var(--black);
-            border-top-color: var(--magenta);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WORKSPACE // PORTFÓLIO</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f0f0f0;--pn:#fff;--ink:#121212;--ln:#121212;--veil:rgba(255,255,255,.86);--mag:#ff0055;--cy:#00f0ff;--ye:#ffe600;--ft:'Oswald',sans-serif;--fu:'Space Mono',monospace;--bd:4px solid var(--ln);--sh:6px 6px 0 var(--ln)}
+[data-theme=dark]{--bg:#14141b;--pn:#1e1e28;--ink:#f2f2f2;--ln:#f2f2f2;--veil:rgba(20,20,27,.92)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg) radial-gradient(var(--ln) 10%,transparent 11%) 0 0/14px 14px;font-family:var(--fu);color:var(--ink);overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:var(--veil);z-index:-1}
+button,input,select{font:inherit;color:inherit}
+.marquee{background:var(--mag);color:#fff;font-family:var(--ft);font-size:18px;letter-spacing:2px;padding:5px 0;border-bottom:var(--bd);overflow:hidden;white-space:nowrap}
+.marquee div{display:inline-block;animation:mq 25s linear infinite}
+@keyframes mq{from{transform:translateX(100%)}to{transform:translateX(-100%)}}
+header{background:var(--pn);border-bottom:var(--bd);padding:14px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:0;z-index:9;box-shadow:0 8px 0 var(--ln)}
+.logo{font-family:var(--ft);font-size:32px;position:relative;margin-right:50px}
+.logo::after{content:"ポートフォリオ";position:absolute;font-size:12px;background:var(--ye);color:#121212;padding:2px 6px;border:2px solid var(--ln);top:-10px;right:-62px;transform:rotate(10deg)}
+.search{flex:1;min-width:180px;background:var(--pn);border:3px solid var(--ln);padding:9px 12px;box-shadow:3px 3px 0 var(--ln)}
+.search:focus{outline:none;background:var(--ye);color:#121212}
+.tb{background:var(--pn);border:3px solid var(--ln);padding:8px 12px;font-weight:700;cursor:pointer;box-shadow:3px 3px 0 var(--ln)}
+.tb:hover{background:var(--cy);color:#121212}.tb:active{transform:translate(3px,3px);box-shadow:none}
+.status{background:var(--cy);color:#121212;border:2px solid var(--ln);padding:5px 12px;font-weight:700;font-size:13px;box-shadow:3px 3px 0 var(--ln);display:flex;align-items:center;gap:8px}
+.dot{width:10px;height:10px;background:var(--mag);border-radius:50%;border:2px solid #121212;animation:bl 1s infinite alternate}
+@keyframes bl{to{opacity:.3}}
+.container{max-width:1300px;margin:36px auto;padding:0 20px}
+.sh{display:flex;align-items:flex-end;gap:14px;margin-bottom:20px;flex-wrap:wrap}
+.st{font-family:var(--ft);font-size:40px;background:var(--ln);color:var(--bg);padding:5px 20px;border-radius:0 20px 0 20px}
+.ss{font-weight:700;color:var(--mag);margin-bottom:10px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.chip{background:var(--pn);border:2px solid var(--ln);padding:5px 12px;font-weight:700;font-size:13px;cursor:pointer;transform:skewX(-8deg)}
+.chip:hover{background:var(--cy);color:#121212}.chip.on{background:var(--ye);color:#121212;box-shadow:3px 3px 0 var(--mag)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:32px}
+.card{background:var(--pn);border:var(--bd);box-shadow:var(--sh);position:relative;cursor:pointer;transition:.2s cubic-bezier(.25,1,.5,1);display:flex;flex-direction:column;overflow:hidden}
+.card:hover{transform:translate(-4px,-8px);box-shadow:12px 12px 0 var(--mag)}
+.card:nth-child(even):hover{box-shadow:12px 12px 0 var(--cy)}
+.cover{background:repeating-linear-gradient(45deg,#121212,#121212 2px,var(--ye) 2px,var(--ye) 10px);height:96px;border-bottom:var(--bd);display:flex;justify-content:center;align-items:center}
+.card:nth-child(even) .cover{background:repeating-linear-gradient(-45deg,#121212,#121212 2px,var(--cy) 2px,var(--cy) 10px)}
+.vol{background:#fff;color:#121212;border:2px solid #121212;padding:4px 14px;font-family:var(--ft);font-size:24px;transform:skewX(-10deg)}
+.cb{padding:18px;flex-grow:1;display:flex;flex-direction:column;gap:12px}
+.fn{font-family:var(--ft);font-size:22px;line-height:1.2;word-break:break-word}
+.badges{display:flex;flex-wrap:wrap;gap:6px}
+.badge{font-size:11px;font-weight:700;border:2px solid var(--ln);padding:2px 7px;background:var(--bg)}
+.fs{font-size:13px;opacity:.75;border-left:3px solid var(--mag);padding-left:10px}
+.btn{background:var(--ln);color:var(--bg);padding:10px;text-align:center;font-weight:700;margin-top:auto}
+.card:hover .btn{background:var(--mag);color:#fff}
+.card:nth-child(even):hover .btn{background:var(--cy);color:#121212}
+.rib{position:absolute;top:10px;left:-34px;background:var(--ye);color:#121212;border:2px solid #121212;font-size:11px;font-weight:700;padding:2px 36px;transform:rotate(-35deg);z-index:2}
+.empty{padding:40px;text-align:center;font-family:var(--ft);font-size:24px}
+.spin{width:50px;height:50px;border:5px solid var(--ln);border-top-color:var(--mag);border-radius:50%;animation:sp 1s linear infinite;margin:0 auto 14px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);padding:2% 4%;z-index:100;flex-direction:column}
+.overlay.open{display:flex}#viewer{z-index:120}#help{z-index:125}#lb{z-index:130;align-items:center;justify-content:center;padding:20px}
+.wrap{background:var(--pn);width:100%;flex:1;min-height:0;border:var(--bd);box-shadow:14px 14px 0 var(--cy);display:flex;flex-direction:column;animation:pop .3s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes pop{from{transform:scale(.93);opacity:0}}
+.mh{background:var(--ye);color:#121212;border-bottom:var(--bd);padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.mt{font-family:var(--ft);font-size:24px;display:flex;align-items:center;gap:12px;word-break:break-word}
+.mt span{background:#121212;color:#fff;padding:2px 10px;font-size:13px;font-family:var(--fu);border-radius:10px}
+.acts{display:flex;gap:8px}
+.acts button{background:#fff;color:#121212;border:2px solid #121212;padding:5px 12px;font-family:var(--ft);font-size:18px;cursor:pointer;box-shadow:3px 3px 0 #121212}
+.acts .x{background:var(--mag);color:#fff}.acts button:active{transform:translate(3px,3px);box-shadow:none}
+.bar{padding:10px 18px;border-bottom:3px solid var(--ln);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.bar:empty{display:none}
+.bar b{font-size:12px;opacity:.6;margin-right:4px}
+.hb{padding:22px;overflow:auto;flex:1}
+.sec{font-family:var(--ft);font-size:26px;margin:6px 0 14px;border-bottom:4px solid var(--mag);display:inline-block}
+.blk{margin-bottom:30px}
+.notes,.dts,.txts,.ph{display:grid;gap:18px}
+.notes{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.txts{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+.ph{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.note{background:var(--ye);color:#121212;border:3px solid #121212;padding:14px;box-shadow:5px 5px 0 #121212;transform:rotate(-1deg)}
+.note:nth-child(even){transform:rotate(1.2deg);background:var(--cy)}
+.note b{font-family:var(--ft);font-size:20px;display:block;margin-bottom:6px}
+.dt{display:flex;gap:14px;align-items:center;border:3px solid var(--ln);padding:10px;background:var(--pn)}
+.db{background:var(--mag);color:#fff;border:3px solid var(--ln);min-width:74px;text-align:center;padding:6px;font-family:var(--ft)}
+.db b{font-size:32px;display:block;line-height:1}.db small{font-size:12px}
+.tx{border:3px solid var(--ln);padding:16px;background:var(--pn);box-shadow:5px 5px 0 var(--mag)}
+.tx h3{font-family:var(--ft);font-size:22px;margin-bottom:8px}
+pre{white-space:pre-wrap;word-break:break-word;font-family:var(--fu);font-size:14px;line-height:1.5}
+.fig{border:3px solid var(--ln);background:var(--pn);box-shadow:4px 4px 0 var(--ln);cursor:zoom-in;overflow:hidden}
+.fig img{width:100%;height:170px;object-fit:cover;display:block;transition:transform .3s}.fig:hover img{transform:scale(1.07)}
+.fig p{padding:6px 8px;font-size:12px;font-weight:700;border-top:3px solid var(--ln)}
+iframe{flex:1;width:100%;border:none;background:#fff}
+#lb img{max-width:92%;max-height:84vh;border:var(--bd);background:#fff}
+#lb p{position:absolute;bottom:14px;left:0;right:0;text-align:center;color:#fff;font-weight:700}
+.nav{position:absolute;top:50%;background:var(--ye);color:#121212;border:3px solid #121212;font-size:26px;padding:6px 14px;cursor:pointer}
+.nav.l{left:16px}.nav.r{right:16px}
+.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px}
+.gc{border:3px solid var(--ln);background:var(--pn);box-shadow:6px 6px 0 var(--ln);display:flex;flex-direction:column}
+.gc:nth-child(3n+2){box-shadow:6px 6px 0 var(--mag)}.gc:nth-child(3n){box-shadow:6px 6px 0 var(--cy)}
+.gh{background:var(--ye);color:#121212;border-bottom:3px solid var(--ln);padding:8px 12px;font-family:var(--ft);font-size:21px}
+.gd{padding:10px 12px;font-size:13px;opacity:.85;line-height:1.45}
+.ex{padding:9px 12px;border-top:2px dashed var(--ln);display:flex;flex-direction:column;gap:5px}
+.er{display:flex;gap:8px;align-items:stretch}
+.ex code{flex:1;background:#121212;color:var(--cy);padding:6px 9px;font-size:13px;word-break:break-all;border-left:4px solid var(--mag)}
+.ex small{font-size:12px;opacity:.8}
+.cp{background:var(--cy);color:#121212;border:2px solid var(--ln);padding:3px 10px;font-weight:700;font-size:12px;cursor:pointer;box-shadow:2px 2px 0 var(--ln)}
+.cp:hover{background:var(--ye)}.cp:active{transform:translate(2px,2px);box-shadow:none}.cp.ok{background:var(--mag);color:#fff}
+.gi{font-size:14px;margin-bottom:18px;max-width:75ch;line-height:1.5}
+.pick{font-family:var(--ft);font-size:30px;margin-bottom:20px}
+@media(max-width:600px){header{padding:12px}.st{font-size:28px}.overlay{padding:0}.mt{font-size:20px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
 </head>
 <body>
+<div class="marquee"><div>✦ BEM-VINDO AO MEU WORKSPACE ✦ GITHUB REPOSITORY SYNCED ✦ PROJETOS E PORTFÓLIO ONLINE ✦ DESIGN & CÓDIGO ✦ BEM-VINDO AO MEU WORKSPACE ✦ GITHUB REPOSITORY SYNCED ✦ PROJETOS E PORTFÓLIO ONLINE ✦</div></div>
+<header>
+  <div class="logo">WORKSPACE</div>
+  <input class="search" id="q" type="search" placeholder="Pesquisar projeto, aba ou arquivo…  ( / )" aria-label="Pesquisar">
+  <select class="tb" id="sort" aria-label="Ordenar"><option value="nome">A–Z</option><option value="arq">+ ARQUIVOS</option><option value="tam">+ PESADOS</option></select>
+  <button class="tb" id="rnd" title="Abrir um projeto aleatório">🎲 SORTEAR</button>
+  <button class="tb" id="hp" title="Como organizar as pastas">? GUIA</button>
+  <button class="tb" id="th" title="Tema claro/escuro">◐</button>
+  <div class="status"><div class="dot" id="dot"></div><span id="rs">AWAITING LINK...</span></div>
+</header>
+<main class="container">
+  <div class="sh"><div class="st">MEUS TRABALHOS</div><div class="ss" id="stats">// PROJETOS & PORTFÓLIO</div></div>
+  <div class="chips" id="chips"></div>
+  <div id="loading" class="empty"><div class="spin"></div>SYNCING WITH GITHUB API...</div>
+  <div class="grid" id="grid"></div>
+</main>
 
-    <!-- FAIXA Y2K ROLANDO -->
-    <div class="marquee-container">
-        <div class="marquee-content">
-            ✦ BEM-VINDO AO MEU WORKSPACE ✦ GITHUB REPOSITORY SYNCED ✦ PROJETOS E PORTFÓLIO ONLINE ✦ DESIGN & CÓDIGO ✦ 
-            ✦ BEM-VINDO AO MEU WORKSPACE ✦ GITHUB REPOSITORY SYNCED ✦ PROJETOS E PORTFÓLIO ONLINE ✦ DESIGN & CÓDIGO ✦
-        </div>
-    </div>
+<div class="overlay" id="hub"><div class="wrap">
+  <div class="mh"><div class="mt"><span>PROJETO</span><div id="ht"></div></div><div class="acts"><button class="x" data-close="#hub">X FECHAR</button></div></div>
+  <div class="bar" id="hp1"></div><div class="bar" id="hp2"></div>
+  <div class="hb" id="hb"></div>
+</div></div>
 
-    <!-- CABEÇALHO -->
-    <header>
-        <div class="logo">WORKSPACE</div>
-        <div class="status-badge">
-            <div class="status-dot" id="status-dot"></div>
-            <span id="repo-status">AWAITING LINK...</span>
-        </div>
-    </header>
+<div class="overlay" id="viewer"><div class="wrap" id="vw">
+  <div class="mh"><div class="mt"><span>LIVE</span><div id="vt"></div></div>
+  <div class="acts"><button id="fs">⛶ TELA CHEIA</button><button id="rl">↻</button><button id="bk">‹ VOLTAR</button><button class="x" id="xv">X FECHAR TUDO</button></div></div>
+  <iframe id="fr" title="Projeto"></iframe>
+</div></div>
 
-    <!-- ÁREA PRINCIPAL -->
-    <div class="container">
-        <div class="section-header">
-            <div class="section-title">MEUS TRABALHOS</div>
-            <div class="section-subtitle">// PROJETOS & PORTFÓLIO</div>
-        </div>
-        
-        <!-- Estado de Carregamento -->
-        <div id="loading" class="loading-screen">
-            <div class="spinner"></div>
-            <p>SYNCING WITH GITHUB API...</p>
-        </div>
-        
-        <!-- Grid de Arquivos HTML -->
-        <div class="grid" id="repo-grid">
-            <!-- Cards injetados via JS -->
-        </div>
-    </div>
+<div class="overlay" id="help"><div class="wrap">
+  <div class="mh"><div class="mt"><span>GUIA</span><div>COMO ORGANIZAR AS PASTAS</div></div><div class="acts"><button class="x" data-close="#help">X FECHAR</button></div></div>
+  <div class="bar"><b>NOME DO SEU PROJETO</b><input class="search" id="gn" value="DLS" maxlength="40" style="max-width:240px" aria-label="Nome do projeto nos exemplos"><button class="tb" id="gcall">⧉ COPIAR GUIA COMPLETO</button></div>
+  <div class="hb"><p class="gi">Crie estas pastas e arquivos no GitHub. O site lê tudo sozinho e monta cards, partes, abas e ordem. Digite o nome do seu projeto acima e os exemplos se atualizam.</p><div id="hx"></div></div>
+</div></div>
 
-    <!-- MODAL / LEITOR DE HQ (VISUALIZADOR HTML) -->
-    <div class="modal-overlay" id="modal">
-        <div class="modal-wrapper">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <span id="modal-tag">LIVE</span>
-                    <div id="modal-title-text">FILE_NAME.HTML</div>
-                </div>
-                <button class="btn-close" onclick="closeModal()">X CLOSE</button>
-            </div>
-            <iframe id="html-viewer" src=""></iframe>
-        </div>
-    </div>
+<div class="overlay" id="lb">
+  <div class="acts" style="position:absolute;top:14px;right:14px"><button class="x" data-close="#lb">X</button></div>
+  <button class="nav l" id="lp">‹</button><img id="li" alt=""><button class="nav r" id="ln">›</button><p id="lc"></p>
+</div>
 
-    <script>
-        // ==========================================
-        // DADOS DO SEU REPOSITÓRIO GITHUB
-        // (Isso fica oculto e é necessário para puxar os arquivos)
-        // ==========================================
-        const GITHUB_USER = 'Hellmet64f'; 
-        const GITHUB_REPO = 'biblioteca'; 
-        const FOLDER_PATH = ''; // Raiz
+<script>
+const U='Hellmet64f', R='biblioteca';
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const raw=p=>`https://raw.githubusercontent.com/${U}/${R}/HEAD/${p.split('/').map(encodeURIComponent).join('/')}`;
+const TYPES={texto:'texto',textos:'texto',aviso:'aviso',avisos:'aviso',foto:'foto',fotos:'foto',imagem:'foto',imagens:'foto',data:'data',datas:'data'};
+const IMG=/\.(png|jpe?g|gif|webp|svg|avif)$/i, MES=['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
+let P=[],ALL=[],q='',gtab='',sort='nome',hs={},photos=[],pi=0,cur=null,ctl=null;
+const txtCache=new Map();
 
-        const gridElement = document.getElementById('repo-grid');
-        const loadingElement = document.getElementById('loading');
-        const statusElement = document.getElementById('repo-status');
-        const statusDot = document.getElementById('status-dot');
-        
-        const modal = document.getElementById('modal');
-        const iframe = document.getElementById('html-viewer');
-        const modalTitleText = document.getElementById('modal-title-text');
+/* ---------- LEITURA DAS PASTAS ---------- */
+function parse(f){
+  const seg=f.path.split('/'), file=seg.pop();
+  if(seg.some(s=>s.startsWith('.'))||file.startsWith('.')) return null;
+  const ext=((file.match(/\.([^.]+)$/)||[])[1]||'').toLowerCase(), base=file.replace(/\.[^.]+$/,'');
+  let kind=/^html?$/.test(ext)?'html':IMG.test(file)?'foto':/^(txt|md)$/.test(ext)?'texto':null;
+  if(!kind) return null;
+  const it={path:f.path,name:base,kind,parts:[],tab:null,size:f.size||0};
+  if(!seg.length){ if(kind!=='html') return null; it.project=base; return it; }
+  it.project=seg[0];
+  const rest=seg.slice(1); let type=null,m;
+  for(let i=0;i<rest.length;i++){
+    const s=rest[i], l=s.toLowerCase().trim();
+    if(m=l.match(/^partes?\s*([\d,\s]+)$/)) it.parts=m[1].split(',').map(x=>+x.trim()).filter(Boolean);
+    else if(/^abas?$/.test(l)) it.tab=rest[i+1]?rest[++i]:'ABA';
+    else if(TYPES[l]){ type=TYPES[l]; const n=rest[i+1];
+      if(n&&!TYPES[n.toLowerCase()]&&!/^partes?\s*\d/i.test(n)&&!/^abas?$/i.test(n)&&!it.tab) it.tab=rest[++i]; }
+    else if(!it.tab) it.tab=s;
+  }
+  if(kind==='texto'&&type&&type!=='foto') it.kind=type;
+  if(it.kind==='data'){
+    let d=base.match(/(\d{4})-(\d{2})-(\d{2})/), e=base.match(/(\d{2})[-.](\d{2})[-.](\d{4})/);
+    if(d) it.date={y:d[1],m:d[2],d:d[3]}; else if(e) it.date={y:e[3],m:e[2],d:e[1]};
+    it.title=base.replace(/(\d{4}-\d{2}-\d{2}|\d{2}[-.]\d{2}[-.]\d{4})/,'').replace(/^[\s\-_]+|[\s\-_]+$/g,'')||'Evento';
+  }
+  return it;
+}
+function build(tree){
+  const nat=(a,b)=>a.path.localeCompare(b.path,'pt',{numeric:true});
+  ALL=tree.map(parse).filter(Boolean).sort(nat);
+  const m=new Map();
+  ALL.forEach((x,i)=>{x.i=i;if(!m.has(x.project))m.set(x.project,{name:x.project,items:[]});m.get(x.project).items.push(x)});
+  P=[...m.values()].map(p=>{
+    p.parts=[...new Set(p.items.flatMap(i=>i.parts))].sort((a,b)=>a-b);
+    p.tabs=[...new Set(p.items.map(i=>i.tab).filter(Boolean))];
+    p.n=k=>p.items.filter(i=>i.kind===k).length;
+    p.size=p.items.reduce((a,i)=>a+i.size,0);
+    return p;
+  }).sort((a,b)=>a.name.localeCompare(b.name,'pt',{numeric:true}));
+}
+async function load(){
+  let tree;
+  try{const c=JSON.parse(localStorage.getItem('ws_tree')||'null');if(c&&Date.now()-c.t<3e5)tree=c.d}catch(e){}
+  try{
+    if(!tree){
+      const r=await fetch(`https://api.github.com/repos/${U}/${R}/git/trees/HEAD?recursive=1`);
+      if(!r.ok) throw 0;
+      tree=(await r.json()).tree.filter(f=>f.type==='blob').map(f=>({path:f.path,size:f.size}));
+      try{localStorage.setItem('ws_tree',JSON.stringify({t:Date.now(),d:tree}))}catch(e){}
+    }
+    build(tree);
+    $('#loading').style.display='none'; $('#rs').textContent='LINK ESTABLISHED: '+R; $('#dot').style.background='var(--cy)';
+    $('#stats').textContent=`// ${P.length} PROJETOS · ${ALL.length} ARQUIVOS · ${new Set(P.flatMap(p=>p.tabs)).size} ABAS`;
+    render();
+  }catch(e){
+    $('#loading').style.display='none'; $('#rs').textContent='ERROR: OFFLINE'; $('#dot').style.background='red';
+    $('#grid').innerHTML='<div class="empty">ERRO DE SINCRONIZAÇÃO.<br>O repositório está público? O limite da API do GitHub pode ter estourado, tente em alguns minutos.</div>';
+  }
+}
 
-        // Função de busca na API
-        async function fetchHtmlFiles() {
-            const apiUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FOLDER_PATH}`;
-            
-            try {
-                const response = await fetch(apiUrl);
-                
-                if (!response.ok) throw new Error('Falha na conexão da API.');
+/* ---------- GRADE PRINCIPAL ---------- */
+function render(){
+  const k=q.trim().toLowerCase();
+  let L=P.filter(p=>(!gtab||p.tabs.includes(gtab))&&(!k||p.name.toLowerCase().includes(k)||p.items.some(i=>(i.name+' '+(i.tab||'')).toLowerCase().includes(k))));
+  if(sort==='arq')L.sort((a,b)=>b.items.length-a.items.length);
+  if(sort==='tam')L.sort((a,b)=>b.size-a.size);
+  const tabs=[...new Set(P.flatMap(p=>p.tabs))].sort((a,b)=>a.localeCompare(b,'pt'));
+  $('#chips').innerHTML=tabs.length?[''].concat(tabs).map(t=>`<button class="chip ${gtab===t?'on':''}" data-t="${esc(t)}">${t?esc(t.toUpperCase()):'TODAS AS ABAS'}</button>`).join(''):'';
+  const B=[['parts',null,'PARTES'],['tabs',null,'ABAS'],['foto','foto','FOTOS'],['texto','texto','TEXTOS'],['aviso','aviso','AVISOS'],['data','data','DATAS']];
+  $('#grid').innerHTML=L.length?L.map(p=>{
+    const i=P.indexOf(p), bd=B.map(([a,kk,n])=>{const c=kk?p.n(kk):p[a].length;return c?`<span class="badge">${c} ${n}</span>`:''}).join('');
+    const one=p.items.length===1&&p.items[0].kind==='html';
+    return `<div class="card" data-p="${i}">${p.n('aviso')?'<div class="rib">AVISO</div>':''}
+      <div class="cover"><div class="vol">PROJ.${String(i+1).padStart(2,'0')}</div></div>
+      <div class="cb"><h2 class="fn">${esc(p.name)}</h2>
+      <div class="fs"><div><b>ARQUIVOS:</b> ${p.items.length}</div><div><b>PESO:</b> ${(p.size/1024).toFixed(1)} KB</div></div>
+      <div class="badges">${bd}</div>
+      <div class="btn">${one?'VER PROJETO':p.parts.length?'ESCOLHER PARTE':'ABRIR PASTA'} &raquo;</div></div></div>`}).join('')
+    :'<div class="empty">NENHUM PROJETO ENCONTRADO</div>';
+}
 
-                const files = await response.json();
-                const htmlFiles = files.filter(file => file.name.endsWith('.html'));
+/* ---------- HUB DO PROJETO (partes, abas, conteúdo) ---------- */
+const show=(s)=>{$(s).classList.add('open');document.body.style.overflow='hidden'};
+const hide=s=>{$(s).classList.remove('open');if(!document.querySelector('.overlay.open'))document.body.style.overflow=''};
+function openProject(i){
+  const p=P[i];
+  if(p.items.length===1&&p.items[0].kind==='html') return openViewer(p.items[0]);
+  hs={p,part:p.parts.length?null:'all',tab:''}; renderHub(); show('#hub');
+}
+function inPart(it,part){return part==='all'||!it.parts.length||it.parts.includes(part)}
+function renderHub(){
+  const {p,part,tab}=hs, b1=$('#hp1'), b2=$('#hp2'), body=$('#hb');
+  $('#ht').textContent=p.name.toUpperCase();
+  if(part===null){
+    b1.innerHTML=b2.innerHTML='';
+    body.innerHTML='<div class="pick">ESCOLHA UMA PARTE</div><div class="grid">'+p.parts.map(n=>`<div class="card" data-part="${n}"><div class="cover"><div class="vol">PARTE ${n}</div></div><div class="cb"><div class="fs"><b>ARQUIVOS:</b> ${p.items.filter(i=>inPart(i,n)).length}</div><div class="btn">ENTRAR &raquo;</div></div></div>`).join('')+'</div>';
+    return;
+  }
+  b1.innerHTML=p.parts.length?'<b>PARTE</b><button class="chip" data-part="">‹ ESCOLHER</button>'+['all',...p.parts].map(n=>`<button class="chip ${part===n?'on':''}" data-part="${n}">${n==='all'?'TODAS':'PARTE '+n}</button>`).join(''):'';
+  const base=p.items.filter(i=>inPart(i,part)), hasG=base.some(i=>!i.tab), tabs=[...new Set(base.map(i=>i.tab).filter(Boolean))];
+  b2.innerHTML=tabs.length?'<b>ABA</b>'+[['','TUDO'],...(hasG?[['__g','GERAL']]:[]),...tabs.map(t=>[t,t.toUpperCase()])].map(([v,l])=>`<button class="chip ${tab===v?'on':''}" data-tab="${esc(v)}">${esc(l)}</button>`).join(''):'';
+  const its=base.filter(i=>!tab||(tab==='__g'?!i.tab:i.tab===tab));
+  photos=its.filter(i=>i.kind==='foto');
+  const S=[['aviso','⚠ AVISOS'],['data','📅 DATAS'],['texto','📝 TEXTOS'],['html','🚀 PROJETOS'],['foto','🖼 FOTOS']];
+  body.innerHTML=S.map(([k,t])=>{
+    let L=its.filter(i=>i.kind===k); if(!L.length) return '';
+    if(k==='data') L=[...L].sort((a,b)=>(a.date?a.date.y+a.date.m+a.date.d:'9').localeCompare(b.date?b.date.y+b.date.m+b.date.d:'9'));
+    const h=L.map(i=>{
+      if(k==='aviso') return `<div class="note"><b>${esc(i.name)}</b><pre data-tx="${i.i}">…</pre></div>`;
+      if(k==='data') return `<div class="dt"><div class="db">${i.date?`<b>${i.date.d}</b><small>${MES[+i.date.m-1]||''} ${i.date.y}</small>`:'<b>—</b>'}</div><div><b>${esc(i.title)}</b><pre data-tx="${i.i}"></pre></div></div>`;
+      if(k==='texto') return `<div class="tx"><h3>${esc(i.name)}</h3><pre data-tx="${i.i}">…</pre></div>`;
+      if(k==='foto') return `<div class="fig" data-ph="${photos.indexOf(i)}"><img loading="lazy" src="${raw(i.path)}" alt="${esc(i.name)}"><p>${esc(i.name)}</p></div>`;
+      return `<div class="card" data-open="${i.i}"><div class="cover"><div class="vol">HTML</div></div><div class="cb"><h3 class="fn">${esc(i.name)}</h3><div class="fs">${(i.size/1024).toFixed(1)} KB${i.tab?' · '+esc(i.tab):''}</div><div class="btn">VER PROJETO &raquo;</div></div></div>`;
+    }).join('');
+    const cls={aviso:'notes',data:'dts',texto:'txts',html:'grid',foto:'ph'}[k];
+    return `<div class="blk"><div class="sec">${t}</div><div class="${cls}">${h}</div></div>`;
+  }).join('')||'<div class="empty">NADA POR AQUI AINDA.<br>Adicione arquivos nesta pasta no GitHub.</div>';
+  body.querySelectorAll('pre[data-tx]').forEach(async el=>{el.textContent=await getTxt(ALL[+el.dataset.tx])});
+}
+function getTxt(it){
+  if(!txtCache.has(it.path)) txtCache.set(it.path,fetch(raw(it.path)).then(r=>r.ok?r.text():'(não foi possível carregar)').catch(()=>'(não foi possível carregar)'));
+  return txtCache.get(it.path);
+}
 
-                // Atualiza UI de Sucesso
-                loadingElement.style.display = 'none';
-                statusElement.innerText = `LINK ESTABLISHED: ${GITHUB_REPO}`;
-                statusDot.style.background = 'var(--cyan)';
+/* ---------- VISUALIZADOR, TELA CHEIA, FOTOS ---------- */
+function killFrame(){
+  if(ctl){ctl.abort();ctl=null}
+  const n=document.createElement('iframe'); n.id='fr'; n.title='Projeto';
+  $('#fr').replaceWith(n); /* troca o iframe inteiro: para som, jogo, timers e WebGL */
+  return n;
+}
+async function openViewer(it){
+  const fr=killFrame(); cur=it; ctl=new AbortController(); const sig=ctl.signal;
+  $('#vt').textContent=it.name.toUpperCase();
+  $('#bk').style.display=$('#hub').classList.contains('open')?'':'none';
+  show('#viewer');
+  fr.srcdoc='<body style="display:flex;justify-content:center;align-items:center;height:100vh;margin:0;background:#121212;color:#00f0ff;font:24px monospace">[ CARREGANDO PROJETO... ]</body>';
+  try{
+    const r=await fetch(raw(it.path),{signal:sig}); let h=await r.text();
+    const base=`<base href="${raw(it.path.split('/').slice(0,-1).concat('').join('/')).replace(/%2F$/,'/')}">`;
+    h=/<head[^>]*>/i.test(h)?h.replace(/<head[^>]*>/i,m=>m+base):base+h;
+    if(cur===it) fr.srcdoc=h;
+  }catch(e){if(e.name!=='AbortError'&&cur===it)fr.srcdoc='<h1 style="color:red;font-family:sans-serif;text-align:center;margin-top:50px">ERRO AO CARREGAR PÁGINA.</h1>'}
+}
+function toggleFS(){document.fullscreenElement?document.exitFullscreen().catch(()=>{}):$('#vw').requestFullscreen&&$('#vw').requestFullscreen().catch(()=>{})}
+/* sair do arquivo: descarrega tudo dele (volta ao projeto se ele estiver aberto) */
+function closeViewer(){cur=null;killFrame();if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});hide('#viewer')}
+/* sair do projeto: limpa partes, abas, textos e fotos da memória */
+function closeHub(){hs={};photos=[];$('#hb').innerHTML='';$('#hp1').innerHTML='';$('#hp2').innerHTML='';hide('#hub')}
+function closeLb(){$('#li').removeAttribute('src');hide('#lb')}
+function closeAll(){closeViewer();closeLb();closeHub()}
+function openPhoto(n){
+  if(!photos.length) return; pi=(n+photos.length)%photos.length;
+  $('#li').src=raw(photos[pi].path); $('#lc').textContent=`${photos[pi].name} · ${pi+1}/${photos.length}`;
+  $('#lp').style.display=$('#ln').style.display=photos.length>1?'':'none'; show('#lb');
+}
 
-                if (htmlFiles.length === 0) {
-                    gridElement.innerHTML = `<h3>NENHUM PROJETO ENCONTRADO EM /${GITHUB_REPO}</h3>`;
-                    return;
-                }
+const GUIDE=[
+{i:'📁',t:'PROJETOS',d:'Cada pasta na raiz vira um card. Um HTML solto na raiz também vira um projeto.',ex:[['DLS.html','Projeto solto: abre direto no visualizador'],['DLS/jogo.html','Arquivo dentro da pasta do projeto']]},
+{i:'🧩',t:'PARTES',d:'Com partes, o card pede para escolher uma. O que ficar fora de uma pasta "parte" aparece em todas.',ex:[['DLS/parte 1/jogo.html','Só na Parte 1'],['DLS/parte 2/jogo.html','Só na Parte 2'],['DLS/parte 1,2/regras.txt','Nas duas partes ao mesmo tempo']]},
+{i:'🗂',t:'ABAS',d:'Criam botões de aba dentro do projeto e no filtro da página inicial.',ex:[['DLS/aba/Mapas/jogo.html','Vai para a aba "Mapas"'],['DLS/aba/jogo.html','Sem nome: cai na aba chamada ABA'],['DLS/parte 1/aba/Mapas/a.html','Aba dentro de uma parte']]},
+{i:'📝',t:'TEXTOS',d:'Arquivos .txt ou .md viram cartões de texto.',ex:[['DLS/texto/nota.txt','Texto geral do projeto'],['DLS/texto/Mapas/nota.txt','Texto na aba "Mapas"'],['DLS/parte 2/texto/Mapas/nota.md','Texto na parte e na aba']]},
+{i:'⚠',t:'AVISOS',d:'Viram post-its no topo, e o card do projeto ganha a faixa AVISO.',ex:[['DLS/aviso/manutencao.txt','Aviso geral'],['DLS/aviso/Mapas/aviso.txt','Aviso na aba "Mapas"']]},
+{i:'📅',t:'DATAS',d:'Coloque a data no nome do arquivo (AAAA-MM-DD ou DD-MM-AAAA). O conteúdo do arquivo é a descrição. Aparecem em ordem de data.',ex:[['DLS/data/2026-12-20 Prova.txt','Data com selo de calendário'],['DLS/data/Mapas/20-12-2026 Entrega.txt','Data dentro de uma aba']]},
+{i:'🖼',t:'FOTOS',d:'png, jpg, gif, webp, svg e avif. Clique para ampliar e use as setas para trocar.',ex:[['DLS/foto/capa.jpg','Foto geral'],['DLS/foto/Mapas/print1.png','Foto na aba "Mapas"'],['DLS/parte 1/foto/Mapas/print2.png','Foto na parte e na aba']]},
+{i:'💡',t:'REGRAS',d:'Detalhes que valem para tudo.',ex:[['','Maiúsculas e minúsculas não importam nos nomes parte, aba, texto, aviso, data e foto'],['','Também valem os plurais e "imagem": partes, abas, textos, avisos, datas, fotos, imagens'],['','Pastas e arquivos que começam com ponto são ignorados'],['','Mudou algo no GitHub? A lista atualiza sozinha em até 5 minutos'],['','O repositório precisa estar público']]},
+{i:'⌨',t:'ATALHOS',d:'Para navegar mais rápido.',ex:[['/','Pesquisar',1],['F','Tela cheia no visualizador',1],['← →','Trocar de foto',1],['Esc','Fechar a janela aberta',1]]}
+];
+const gname=()=>$('#gn').value.trim().replace(/[\/\\]/g,'')||'DLS';
+function renderGuide(){
+  const n=gname(), r=c=>c.replace(/DLS/g,n);
+  $('#hx').innerHTML='<div class="gg">'+GUIDE.map(g=>`<div class="gc"><div class="gh">${g.i} ${g.t}</div><div class="gd">${esc(g.d)}</div>`+g.ex.map(([c,d,k])=>`<div class="ex">${c?`<div class="er"><code>${esc(r(c))}</code>${k?'':`<button class="cp" data-cp="${esc(r(c))}">COPIAR</button>`}</div>`:''}<small>${esc(d)}</small></div>`).join('')+'</div>').join('')+'</div>';
+}
+function copy(txt,btn){
+  const ok=()=>{const o=btn.textContent;btn.textContent='COPIADO ✓';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok')},1400)};
+  const fb=()=>{const a=document.createElement('textarea');a.value=txt;a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove();ok()};
+  navigator.clipboard?navigator.clipboard.writeText(txt).then(ok,fb):fb();
+}
+function guideText(){
+  const n=gname();
+  return GUIDE.map(g=>g.t+'\n'+g.d+'\n'+g.ex.map(([c,d])=>'  '+(c?c.replace(/DLS/g,n)+'  →  ':'')+d).join('\n')).join('\n\n');
+}
 
-                renderCards(htmlFiles);
-
-            } catch (error) {
-                console.error(error);
-                loadingElement.style.display = 'none';
-                statusElement.innerText = "ERROR: OFFLINE";
-                statusDot.style.background = 'red';
-                gridElement.innerHTML = `<h3>ERRO DE SINCRONIZAÇÃO. REPOSITÓRIO ESTÁ PÚBLICO?</h3>`;
-            }
-        }
-
-        // Função para desenhar os Cards no estilo HQ
-        function renderCards(files) {
-            gridElement.innerHTML = '';
-            
-            files.forEach((file, index) => {
-                // Formatação visual
-                const volNumber = String(index + 1).padStart(2, '0');
-                const sizeKB = (file.size / 1024).toFixed(1);
-                const isEven = index % 2 === 0;
-
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.onclick = () => openModal(file.name, file.download_url);
-                
-                // Estrutura HTML do Card Manga/Y2K
-                card.innerHTML = `
-                    ${isEven ? '<div class="star-icon"></div>' : ''}
-                    <div class="card-cover">
-                        <div class="volume-tag">PROJ.${volNumber}</div>
-                    </div>
-                    <div class="card-body">
-                        <h2 class="file-name">${file.name}</h2>
-                        <div class="file-stats">
-                            <div><strong>STATUS:</strong> ONLINE</div>
-                            <div><strong>SIZE:</strong> ${sizeKB} KB</div>
-                            <div><strong>FORMAT:</strong> HTML</div>
-                        </div>
-                        <div class="card-btn">VER PROJETO >></div>
-                    </div>
-                `;
-                
-                gridElement.appendChild(card);
-            });
-        }
-
-        // Função para abrir e renderizar o HTML no Modal
-        async function openModal(fileName, fileUrl) {
-            modalTitleText.innerText = fileName.toUpperCase();
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // Trava scroll da tela de fundo
-            
-            // Tela de carregamento tech dentro do iframe
-            iframe.srcdoc = `
-                <div style="display:flex; justify-content:center; align-items:center; height:100vh; background:#121212; color:#00f0ff; font-family:monospace; font-size:24px;">
-                    [ CARREGANDO PROJETO... ]
-                </div>
-            `;
-
-            try {
-                // Baixa o código do GitHub e injeta como site real
-                const response = await fetch(fileUrl);
-                const htmlContent = await response.text();
-                iframe.srcdoc = htmlContent;
-            } catch (error) {
-                iframe.srcdoc = `<h1 style="color:red; font-family:sans-serif; text-align:center; margin-top:50px;">ERRO AO CARREGAR PÁGINA.</h1>`;
-            }
-        }
-
-        // Fecha Modal
-        function closeModal() {
-            modal.style.display = 'none';
-            iframe.srcdoc = ''; 
-            document.body.style.overflow = 'auto'; // Libera scroll
-        }
-
-        // Fecha modal ao clicar fora da janela
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
-
-        // Inicia
-        fetchHtmlFiles();
-
-    </script>
+/* ---------- EVENTOS ---------- */
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-close],[data-t],[data-p],[data-part],[data-tab],[data-open],[data-ph],[data-cp]'); if(!t) return;
+  const d=t.dataset;
+  if('cp' in d) copy(d.cp,t);
+  else if(d.close){d.close==='#hub'?closeHub():d.close==='#lb'?closeLb():hide(d.close)}
+  else if('t' in d){gtab=d.t;render()}
+  else if('p' in d&&t.closest('#grid')) openProject(+d.p);
+  else if('part' in d){hs.part=d.part===''?null:d.part==='all'?'all':+d.part;hs.tab='';renderHub()}
+  else if('tab' in d){hs.tab=d.tab;renderHub()}
+  else if('open' in d) openViewer(ALL[+d.open]);
+  else if('ph' in d) openPhoto(+d.ph);
+});
+$('#q').oninput=e=>{q=e.target.value;render()};
+$('#sort').onchange=e=>{sort=e.target.value;render()};
+$('#rnd').onclick=()=>{if(P.length)openProject(P.indexOf(P[Math.floor(Math.random()*P.length)]))};
+$('#fs').onclick=toggleFS; $('#bk').onclick=closeViewer; $('#xv').onclick=closeAll; $('#rl').onclick=()=>cur&&openViewer(cur);
+$('#lp').onclick=()=>openPhoto(pi-1); $('#ln').onclick=()=>openPhoto(pi+1);
+$('#hp').onclick=()=>{renderGuide();show('#help')};
+$('#gn').oninput=renderGuide;
+$('#gcall').onclick=e=>copy(guideText(),e.currentTarget);
+$('#th').onclick=()=>{const d=document.documentElement,n=d.dataset.theme==='dark'?'':'dark';n?d.dataset.theme=n:d.removeAttribute('data-theme');try{localStorage.setItem('ws_theme',n)}catch(e){}};
+try{if(localStorage.getItem('ws_theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}
+document.addEventListener('keydown',e=>{
+  const typing=/INPUT|SELECT/.test(document.activeElement.tagName), op=s=>$(s).classList.contains('open');
+  if(e.key==='Escape'){ if(op('#lb'))closeLb(); else if(op('#help'))hide('#help'); else if(op('#viewer'))closeViewer(); else if(op('#hub'))closeHub(); else if(typing)document.activeElement.blur() }
+  else if(typing) return;
+  else if(e.key==='/'){e.preventDefault();$('#q').focus()}
+  else if((e.key==='f'||e.key==='F')&&op('#viewer')) toggleFS();
+  else if(op('#lb')&&e.key==='ArrowLeft') openPhoto(pi-1);
+  else if(op('#lb')&&e.key==='ArrowRight') openPhoto(pi+1);
+});
+load();
+</script>
 </body>
 </html>
